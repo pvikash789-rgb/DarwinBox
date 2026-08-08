@@ -183,6 +183,49 @@ def generate_sql(question: str, schema: str) -> str:
     return sql.strip()
 
 
+# ---------------------------------------------------------------- result display
+
+def looks_like_date(series) -> bool:
+    """True if a text column parses cleanly as dates."""
+    if pd.api.types.is_datetime64_any_dtype(series):
+        return True
+    if series.dtype == "object":
+        try:
+            parsed = pd.to_datetime(series, errors="coerce", format="mixed")
+            return parsed.notna().mean() > 0.9
+        except Exception:
+            return False
+    return False
+
+
+def render_result(df):
+    """Pick a display based on the shape of the result. No model call involved."""
+    numeric = [c for c in df.columns if pd.api.types.is_numeric_dtype(df[c])]
+    other = [c for c in df.columns if c not in numeric]
+
+    # a single value -> show it big
+    if df.shape == (1, 1):
+        value = df.iloc[0, 0]
+        shown = f"{value:,}" if isinstance(value, (int, float)) else str(value)
+        st.metric(df.columns[0].replace("_", " ").title(), shown)
+        return
+
+    # one label column + one number column -> chart it
+    if len(numeric) == 1 and len(other) == 1 and 1 < len(df) <= 50:
+        label, value = other[0], numeric[0]
+        chart_data = df.set_index(label)[value]
+
+        if looks_like_date(df[label]):
+            st.line_chart(chart_data)
+        else:
+            st.bar_chart(chart_data)
+
+        st.dataframe(df, width="stretch")
+        return
+
+    # anything else -> just the table
+    st.dataframe(df, width="stretch")
+
 
 
 # ---------------------------------------------------------------- execution
@@ -260,8 +303,9 @@ if question:
 
     if result is None or result.empty:
         st.warning("That query ran, but returned no rows.")
-    else:
-        st.dataframe(result, width="stretch")
+        st.stop()
+
+    render_result(result)
 
     with st.expander("Show the SQL"):
         st.code(sql, language="sql")
