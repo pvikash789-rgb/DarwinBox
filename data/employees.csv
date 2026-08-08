@@ -1,0 +1,63 @@
+employee_id,full_name,department,location,job_title,pay_grade,gender,hire_date,exit_date,employment_status,manager_id
+1001,Nikhil Iyer,Engineering,Hyderabad,Software Engineer,L1,Male,2024-09-16,,Active,1015
+1002,Tanvi Reddy,Engineering,Bengaluru,Software Engineer,L1,Female,2024-09-18,,Active,1015
+1003,Vikram Shetty,Engineering,Pune,Staff Engineer,L5,Male,2021-06-06,,Active,1015
+1004,Karthik Kulkarni,Engineering,Hyderabad,Senior Software Engineer,L3,Female,2024-07-20,,Active,1015
+1005,Aditi Reddy,Engineering,Mumbai,Software Engineer,L2,Female,2022-09-05,,Active,1015
+1006,Sachin Pillai,Engineering,Mumbai,Staff Engineer,L5,Female,2021-05-14,,Active,1015
+1007,Nisha Reddy,Engineering,Bengaluru,Staff Engineer,L4,Male,2021-11-27,2024-10-23,Resigned,1015
+1008,Sneha Bose,Engineering,Bengaluru,QA Engineer,L2,Male,2025-10-19,,Active,1015
+1009,Deepak Patel,Engineering,Bengaluru,Software Engineer,L3,Female,2024-04-14,,Active,1015
+1010,Pooja Patel,Engineering,Bengaluru,Software Engineer,L2,Male,2024-02-29,,Active,1015
+1011,Preeti Bose,Engineering,Mumbai,Senior Software Engineer,L3,Female,2024-02-13,2025-07-22,Resigned,1015
+1012,Priya Agarwal,Engineering,Bengaluru,Staff Engineer,L5,Female,2022-12-31,,Active,1015
+1013,Meera Rao,Engineering,Hyderabad,QA Engineer,L2,Female,2024-09-02,,Active,1015
+1014,Akash Agarwal,Engineering,Hyderabad,QA Engineer,L3,Female,2024-05-22,,Active,1015
+1015,Aditi Verma,Engineering,Pune,Engineering Manager,L4,Male,2025-10-03,,Active,
+1016,Priya Rao,Engineering,Hyderabad,Software Engineer,L2,Female,2025-06-07,,Active,1015
+1017,Rohan Shetty,Engineering,Mumbai,Staff Engineer,L5,Male,2022-08-26,,Active,1015
+1018,Rohit Iyer,Engineering,Delhi NCR,Senior Software Engineer,L3,Male,2025-04-15,,Active,1015
+1019,Varun Bose,Sales,Hyderabad,Sales Development Rep,L2,Female,2023-06-24,,Active,1021
+1020,Divya Shetty,Sales,Pune,Senior Account Executive,L3,Male,2022-10-02,,Active,1021
+1021,Meera Agarwal,Sales,Hyderabad,Sales Manager,L4,Female,2024-07-04,,Active,
+1022,Ritika Shetty,Sales,Remote,Sales Development Rep,L2,Male,2022-08-07,,Active,1021
+1023,Pranav Singh,Sales,Delhi NCR,Sales Manager,L4,Female,2024-12-07,,Active,1021
+1024,Karthik Agarwal,Sales,Bengaluru,Sales Development Rep,L3,Male,2024-04-19,2026-06-09,Terminated,1021
+1025,Kunal Gupta,Sales,Remote,Sales Development Rep,L2,Male,2021-03-27,2024-09-06,Resigned,1021
+1026,Sanjana Nair,Sales,Remote,Account Executive,L1,Male,2022-05-20,2025-02-06,Resigned,1021
+1027,Preeti Patel,Sales,Bengaluru,Sales Development Rep,L2,Male,2023-09-12,2024-08-03,Resigned,1021
+1028,Kunal Reddy,Sales,Remote,Account Executive,L2,Male,2019-02-05,,Active,1021
+1029,Sonia Gupta,Sales,Hyderabad,Account Executive,L1,Female,2025-04-24,,Active,1021
+1030,Lakshmi Shetty,Sales,Hyderabad,Sales Development Rep,L3,Male,2024-05-19,,Active,1021
+1031,Ishita Joshi,Customer Success,Remote,Implementation Specialist,L2,Male,2025-10-31,,Active,1036
+1032,Neha Agarwal,Customer Success,Bengaluru,Implementation Specialist,L1,Female,2024-10-02,2026-05-31,Terminated,1036
+1033,Ruchi Chopra,Customer Success,Mumbai,CS Associate,L1,Female,2019-11-09,,Active,1036
+1034,Sanjana Desai,Customer Success,Pune,Implementation Specialist,L2,Female,2021-12-03,,Active,1036
+1035,Pooja Singh,Customer Success,Pune,CS Associate,L1,Male,2024-05-14,,Active,1036
+1036,Sumit Rao,Customer Success,Mumbai,CS Manager,L5,Male,2024-02-09,,Active,
+1037,Sneha Agarwal,Customer Success,Bengaluru,CS Manager,L5,Female,2024-05-28,2025-03-08,Resigned,1036
+1038,Ritika Pillai,Customer Success,Hyderabad,Implementation Specialist,L3,Male,2024-05-19,,Active,1036
+1039,Lakshmi Joshi,Customer Success,Hyderabad,CS Manager,L5,Female,2024-07-26,,Active,1036
+1040,Yash Chopra,Marketing,Hyderabad,Marketing Associate,L3,Male,2020-09-18,,Active,1041
+1041,Varun Kapoor,Marketing,Remote,Marketing Manager,L4,Female,2024-03-21,,Active,
+1042,Vikram Nair,Marketing,Mumbai,Growth Analyst,L1,Female,2025-07-28,,Active,1041
+1043,Abhishek Bose,Marketing,Hyderabad,Growth Analyst,L1,Female,2025-09-26,,Active,1041
+1044,Rahul Joshi,Marketing,Bengaluru,Marketing Manager,L5,Female,2025-01-15,,Active,1041
+1045,Divya Malhotra,Marketing,Hyderabad,Marketing Manager,L4,Male,2023-10-10,,Active,1041
+1046,Deepak Reddy,Marketing,Hyderabad,Marketing Associate,L1,Male,2022-04-27,2026-03-04,Resigned,1041
+1047,Naveen Patel,Finance,Delhi NCR,Senior Financial Analyst,L3,Male,2022-05-22,,Active,1050
+1048,Mohit Shetty,Finance,Bengaluru,Financial Analyst,L2,Male,2025-08-01,,Active,1050
+1049,Kunal Joshi,Finance,Hyderabad,Financial Analyst,L3,Male,2022-10-22,,Active,1050
+1050,Anjali Kulkarni,Finance,Delhi NCR,Finance Manager,L4,Female,2022-01-27,,Active,
+1051,Ramesh Malhotra,Finance,Delhi NCR,Senior Financial Analyst,L3,Male,2025-02-09,,Active,1050
+1052,Aditi Chopra,Finance,Remote,Senior Financial Analyst,L3,Female,2023-07-30,,Active,1050
+1053,Vikram Patel,Human Resources,Hyderabad,HR Business Partner,L3,Female,2020-05-09,2024-07-17,Resigned,1056
+1054,Shreya Malhotra,Human Resources,Hyderabad,Talent Acquisition Specialist,L2,Male,2025-11-23,,Active,1056
+1055,Sumit Patel,Human Resources,Remote,Talent Acquisition Specialist,L3,Female,2024-05-25,,Active,1056
+1056,Priya Desai,Human Resources,Bengaluru,HR Manager,L4,Female,2021-11-07,,Active,
+1057,Payal Agarwal,Human Resources,Mumbai,HR Manager,L5,Male,2024-12-10,,Active,1056
+1058,Bhavana Chopra,Operations,Remote,Operations Manager,L4,Female,2025-09-22,,Active,
+1059,Varun Verma,Operations,Remote,Operations Manager,L5,Male,2025-03-18,,Active,1058
+1060,Amit Kulkarni,Operations,Hyderabad,Operations Manager,L4,Male,2020-06-13,2026-01-03,Resigned,1058
+1061,Ananya Chopra,Operations,Mumbai,Facilities Coordinator,L3,Male,2024-09-23,,Active,1058
+1062,Rajesh Singh,Operations,Hyderabad,Operations Analyst,L1,Female,2020-01-21,,Active,1058
