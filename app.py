@@ -1,3 +1,4 @@
+import requests
 import duckdb
 import pandas as pd
 import streamlit as st
@@ -136,3 +137,131 @@ schema = build_schema_description(con, list(tables))
 with st.expander("Schema description sent to the model", expanded=True):
     st.code(schema, language="text")
     st.caption(f"{len(schema):,} characters (~{len(schema) // 4:,} tokens)")
+
+
+# ---------------------------------------------------------------- SQL generation
+
+GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+MODEL = "openai/gpt-oss-120b"
+
+SYSTEM_PROMPT = """You write DuckDB SQL. You are given a database schema and a question.
+
+Rules:
+- Reply with ONE SQL query and nothing else. No explanation, no markdown fences.
+- Use only the tables and columns given in the schema.
+- Date columns are stored as text in YYYY-MM-DD format. Compare as text or CAST to DATE.
+- Read the "Important notes" section carefully and follow it exactly.
+- If the question cannot be answered from this schema, reply with exactly: CANNOT_ANSWER
+- Give result columns short, readable aliases."""
+
+
+def generate_sql(question: str, schema: str) -> str:
+    """Ask the model for a SQL query. Swap this one function to change LLM backend."""
+    response = requests.post(
+        GROQ_URL,
+        headers={"Authorization": f"Bearer {st.secrets['GROQ_API_KEY']}"},
+        json={
+            "model": MODEL,
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": f"{schema}\n\nQuestion: {question}\n\nSQL:"},
+            ],
+            "max_tokens": 1500,
+            "reasoning_effort": "low",
+            "temperature": 0,
+        },
+        timeout=60,
+    )
+    response.raise_for_status()
+    sql = response.json()["choices"][0]["message"]["content"].strip()
+
+    # models sometimes wrap output in markdown fences despite instructions
+    if sql.startswith("```"):
+        sql = sql.split("```")[1]
+        if sql.lower().startswith("sql"):
+            sql = sql[3:]
+    return sql.strip()
+
+
+
+
+# ---------------------------------------------------------------- execution
+
+def run_sql(con, sql):
+    """Execute SQL and return a dataframe. Raises on failure."""
+    return con.execute(sql).df()
+
+
+def fix_sql(question: str, schema: str, bad_sql: str, error: str) -> str:
+    """Show the model its own failed query plus the database error, and ask for a fix."""
+    repair_request = (
+        f"{schema}\n\n"
+        f"Question: {question}\n\n"
+        f"This SQL failed:\n{bad_sql}\n\n"
+        f"The database returned this error:\n{error}\n\n"
+        f"Return a corrected SQL query. SQL only, nothing else."
+    )
+    response = requests.post(
+        GROQ_URL,
+        headers={"Authorization": f"Bearer {st.secrets['GROQ_API_KEY']}"},
+        json={
+            "model": MODEL,
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": repair_request},
+            ],
+            "max_tokens": 1500,
+            "reasoning_effort": "low",
+            "temperature": 0,
+        },
+        timeout=60,
+    )
+    response.raise_for_status()
+    sql = response.json()["choices"][0]["message"]["content"].strip()
+    if sql.startswith("```"):
+        sql = sql.split("```")[1]
+        if sql.lower().startswith("sql"):
+            sql = sql[3:]
+    return sql.strip()
+
+
+st.divider()
+question = st.text_input("Ask a question about your data")
+
+if question:
+    with st.spinner("Writing SQL..."):
+        try:
+            sql = generate_sql(question, schema)
+        except Exception as e:
+            st.error(f"Could not reach the model — {e}")
+            st.stop()
+
+    if sql == "CANNOT_ANSWER":
+        st.warning("I can't answer that from the uploaded data.")
+        st.stop()
+
+    result = None
+    try:
+        result = run_sql(con, sql)
+    except Exception as first_error:
+        st.info("First query failed — asking the model to correct it.")
+        with st.expander("Failed query"):
+            st.code(sql, language="sql")
+            st.caption(str(first_error))
+
+        try:
+            sql = fix_sql(question, schema, sql, str(first_error))
+            result = run_sql(con, sql)
+        except Exception as second_error:
+            st.error("Couldn't produce a working query for that question.")
+            st.code(sql, language="sql")
+            st.caption(str(second_error))
+            st.stop()
+
+    if result is None or result.empty:
+        st.warning("That query ran, but returned no rows.")
+    else:
+        st.dataframe(result, width="stretch")
+
+    with st.expander("Show the SQL"):
+        st.code(sql, language="sql")
