@@ -233,7 +233,10 @@ def render_result(df):
 # ---------------------------------------------------------------- execution
 
 def run_sql(con, sql):
-    """Execute SQL and return a dataframe. Raises on failure."""
+    """Execute SQL and return a dataframe. Only SELECT queries are allowed."""
+    first_word = sql.strip().lstrip("(").split(None, 1)[0].upper()
+    if first_word not in ("SELECT", "WITH"):
+        raise ValueError(f"Only SELECT queries are allowed, got: {first_word}")
     return con.execute(sql).df()
 
 
