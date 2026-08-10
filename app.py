@@ -79,9 +79,11 @@ def find_grain_warnings(con, tables, join_keys):
                 continue
             if ratio and ratio > 1.05:
                 warnings.append(
-                    f"  - {t} holds ~{ratio:.1f} rows per {key}. It is a history table, "
-                    f"not one row per {key}. To get a current value, pick the latest row "
-                    f"per {key} (e.g. with a window function) rather than averaging all rows."
+                    f"  - {t} holds ~{ratio:.1f} rows per {key} (multiple rows per {key}, "
+                    f"not one). For a CURRENT value such as a present salary or latest rating, "
+                    f"select the most recent row per {key} using a window function. For a TOTAL "
+                    f"or COUNT across time, aggregate all rows normally - do not filter to the "
+                    f"latest row."
                 )
     return warnings
 
